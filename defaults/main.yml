@@ -1,0 +1,15 @@
+---
+semaphore_ui_image: "semaphoreui/semaphore:latest"
+semaphore_db_image: "postgres:14"
+semaphore_db_user: "semaphore"
+semaphore_db_password: "semaphore"
+semaphore_db_name: "semaphore"
+semaphore_host_config_path: /etc/semaphore
+semaphore_host_db_path: /var/lib/semaphore/postgresql/data
+semaphore_container_user: semaphore
+semaphore_ui_host_port: 3000
+semaphore_ui_admin_username: admin
+semaphore_ui_admin_password: admin
+semaphore_ui_admin_email: admin@localhost
+semaphore_ui_access_key_encription: gs72mPntFATGJs9qK0pQ0rKtfidlexiMjYCH9gWKhTU=
+semaphore_db_host_port: 5432

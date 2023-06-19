@@ -1,0 +1,42 @@
+# {{ ansible_managed }}
+---
+version: "3"
+services:
+  postgres:
+    restart: unless-stopped
+    ports:
+      - {{ semaphore_db_host_port }}:5432
+    image: {{ semaphore_db_image }}
+    hostname: postgres
+    user: {{ created_uid }}:{{ created_gid }}
+    volumes:
+      -  /etc/passwd:/etc/passwd:ro
+      - {{ semaphore_host_db_path }}:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: {{ semaphore_db_user }}
+      POSTGRES_PASSWORD: {{ semaphore_db_password }}
+      POSTGRES_DB: {{ semaphore_db_name }}
+  semaphore:
+    restart: unless-stopped
+    ports:
+      - {{ semaphore_ui_host_port }}:3000
+    image: {{ semaphore_ui_image }}
+    user: {{ created_uid }}:{{ created_gid }}
+    volumes: 
+      -  /tmp/semaphore:/tmp/semaphore
+      -  {{ semaphore_host_config_path }}:{{ semaphore_host_config_path }}
+    environment:
+      SEMAPHORE_DB_USER: {{ semaphore_db_user }}
+      SEMAPHORE_DB_PASS: {{ semaphore_db_password }}
+      SEMAPHORE_DB_HOST: postgres
+      SEMAPHORE_DB_PORT: 5432
+      SEMAPHORE_DB_DIALECT: postgres
+      SEMAPHORE_DB: {{ semaphore_db_name }}
+      SEMAPHORE_PLAYBOOK_PATH: /tmp/semaphore/
+      SEMAPHORE_ADMIN_PASSWORD: {{ semaphore_ui_admin_password }}
+      SEMAPHORE_ADMIN_NAME: {{ semaphore_ui_admin_username }}
+      SEMAPHORE_ADMIN_EMAIL: {{ semaphore_ui_admin_email }}
+      SEMAPHORE_ADMIN: {{ semaphore_ui_admin_username }}
+      SEMAPHORE_ACCESS_KEY_ENCRYPTION: {{ semaphore_ui_access_key_encription }}
+    depends_on:
+      - postgres

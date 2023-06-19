@@ -1,0 +1,16 @@
+[Unit]
+Description=semaphore
+Requires=docker.service
+After=docker.service
+
+[Service]
+Restart=always
+User={{ semaphore_container_user }}
+Group=docker
+WorkingDirectory={{ semaphore_host_config_path }}
+ExecStartPre=/usr/local/bin/docker-compose -f {{ semaphore_host_config_path }}/docker-compose.yml down
+ExecStart=/usr/local/bin/docker-compose -f {{ semaphore_host_config_path }}/docker-compose.yml up
+ExecStop=/usr/local/bin/docker-compose -f {{ semaphore_host_config_path }}/docker-compose.yml down
+
+[Install]
+WantedBy=multi-user.target
