@@ -21,9 +21,7 @@ services:
     ports:
       - {{ semaphore_ui_host_port }}:3000
     image: {{ semaphore_ui_image }}
-    user: {{ created_uid }}:{{ created_gid }}
     volumes: 
-      -  /tmp/semaphore:/tmp/semaphore
       -  {{ semaphore_host_config_path }}:{{ semaphore_host_config_path }}
     environment:
       SEMAPHORE_DB_USER: {{ semaphore_db_user }}

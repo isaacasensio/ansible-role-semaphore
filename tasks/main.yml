@@ -24,10 +24,9 @@
     owner: "{{ semaphore_container_user }}"
     group: "{{ semaphore_container_user }}"
     state: directory
-    mode: 0755
+    mode: 0777
   loop:
     - "{{ semaphore_host_config_path }}"
-    - "/tmp/semaphore"
 
 - name: Ensure semaphore db folder exists
   become: true
